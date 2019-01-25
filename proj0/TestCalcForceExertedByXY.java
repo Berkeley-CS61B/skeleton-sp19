@@ -17,6 +17,9 @@ public class TestCalcForceExertedByXY {
      *  @param  eps         Tolerance for the double comparison.
      */
     private static boolean approxEqual(double actual, double expected, double eps) {
+        if (Double.isNaN(actual) || Double.isInfinite(actual)) {
+            return false;
+        }
         return Math.abs(expected - actual) <= eps * Math.max(expected, actual);
     }
 

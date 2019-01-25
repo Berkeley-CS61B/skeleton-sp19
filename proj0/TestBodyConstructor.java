@@ -18,7 +18,10 @@ public class TestBodyConstructor {
      *  @param  label       Label for the 'test' case
      */
     private static void checkEquals(double expected, double actual, String label) {
-        if (expected == actual) {
+        if (Double.isNaN(actual) || Double.isInfinite(actual)) {
+            System.out.println("FAIL: " + label
+                    + ": Expected " + expected + " and you gave " + actual);
+        } else if (expected == actual) {
             System.out.println("PASS: " + label
                     + ": Expected " + expected + " and you gave " + actual);
         } else {

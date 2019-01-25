@@ -20,7 +20,10 @@ public class TestCalcNetForceExertedByXY {
      *  @param  label       Label for the 'test' case
      */
     private static void checkEquals(double expected, double actual, String label) {
-        if (expected == actual) {
+        if (Double.isNaN(actual) || Double.isInfinite(actual)) {
+            System.out.println("FAIL: " + label
+                    + ": Expected " + expected + " and you gave " + actual);
+        } else if (expected == actual) {
             System.out.println("PASS: " + label
                     + ": Expected " + expected + " and you gave " + actual);
         } else {
@@ -35,7 +38,8 @@ public class TestCalcNetForceExertedByXY {
      *  @param  places  Integer number of places to round VALUE to.
      */
     private static double round(double value, int places) {
-        if (places < 0) {
+        if (places < 0 || Double.isNaN(value) || Double.isInfinite(value)) {
+            System.out.println("Tried to round: " + value + ", but couldn't.");
             throw new IllegalArgumentException();
         }
 

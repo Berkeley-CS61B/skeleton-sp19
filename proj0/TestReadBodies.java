@@ -5,7 +5,11 @@
 public class TestReadBodies {
 
     private static boolean doubleEquals(double actual, double expected, double eps) {
-        return Math.abs(expected - actual) <= eps * Math.max(expected, actual);
+        if (Double.isNaN(actual) || Double.isInfinite(actual)) {
+            return false;
+        } else {
+            return Math.abs(expected - actual) <= eps * Math.max(expected, actual);
+        }
     }
 
     /** Checks to make sure that readBodies() works perfectly. */
