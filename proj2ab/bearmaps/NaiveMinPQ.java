@@ -2,6 +2,7 @@ package bearmaps;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 /** A very basic implementation of the ExtrinsicMinPQ.
  *  Operations have very poor performance, but it's at least
@@ -16,6 +17,9 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     @Override
     public void add(T item, double priority) {
+        if (contains(item)) {
+            throw new IllegalArgumentException(item + " already present");
+        }
         items.add(new PriorityNode(item, priority));
     }
 
@@ -24,15 +28,20 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
         return items.contains(new PriorityNode(item, 0));
     }
 
-    /* Returns the minimum item. Also known as "min". */
     @Override
     public T getSmallest() {
+        if (size() == 0) {
+            throw new NoSuchElementException("PQ is empty");
+        }
         return Collections.min(items).getItem();
     }
 
     /* Removes and returns the minimum item. Also known as "dequeue". */
     @Override
     public T removeSmallest() {
+        if (size() == 0) {
+            throw new NoSuchElementException("PQ is empty");
+        }
         int minInd = indOf(getSmallest());
         return items.remove(minInd).getItem();
     }
@@ -40,6 +49,9 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
     /* Changes the priority of the given item. Behavior undefined if item doesn't exist. */
     @Override
     public void changePriority(T item, double priority) {
+        if (contains(item) == false) {
+            throw new NoSuchElementException("PQ does not contain " + item);
+        }
         items.get(indOf(item)).setPriority(priority);
     }
 
