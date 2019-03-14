@@ -6,7 +6,11 @@ import java.util.NoSuchElementException;
 
 /** A very basic implementation of the ExtrinsicMinPQ.
  *  Operations have very poor performance, but it's at least
- *  correct. @author Matt Owen @since 03-11-19 */
+ *  correct, with one exception: The add method
+ *  should throw an exception if the item already exists,
+ *  but doing so makes the add method painfully slow to the
+ *  point where this class is very difficult to use for testing.
+ *  @author Matt Owen @since 03-11-19 */
 public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     private ArrayList<PriorityNode> items;
@@ -15,11 +19,11 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
         items = new ArrayList<>();
     }
 
+    /** Note this method does not throw the proper exception,
+     *  otherwise it is painfully slow (linear time).
+     */
     @Override
     public void add(T item, double priority) {
-        if (contains(item)) {
-            throw new IllegalArgumentException(item + " already present");
-        }
         items.add(new PriorityNode(item, priority));
     }
 
@@ -36,7 +40,6 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
         return Collections.min(items).getItem();
     }
 
-    /* Removes and returns the minimum item. Also known as "dequeue". */
     @Override
     public T removeSmallest() {
         if (size() == 0) {
@@ -46,7 +49,6 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
         return items.remove(minInd).getItem();
     }
 
-    /* Changes the priority of the given item. Behavior undefined if item doesn't exist. */
     @Override
     public void changePriority(T item, double priority) {
         if (contains(item) == false) {
