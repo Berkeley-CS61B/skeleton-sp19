@@ -6,7 +6,8 @@ package bearmaps;
  */
 public interface ExtrinsicMinPQ<T> {
     /* Adds an item with the given priority value. Throws an
-     * IllegalArgumentExceptionb if item is already present. */
+     * IllegalArgumentExceptionb if item is already present.
+     * You may assume that item is never null. */
     void add(T item, double priority);
     /* Returns true if the PQ contains the given item. */
     boolean contains(T item);
