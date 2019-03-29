@@ -1,0 +1,10 @@
+ 5  3  1  4 
+10  2  8  7 
+14 13  0 11 
+ 6  9 15 12 
+solution length: 38
+difficulty: Hard++
+dijkstra states explored: ??
+manhattan states explored: 283226
+
+

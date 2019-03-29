@@ -1,0 +1,8 @@
+ 6  2  5  3 
+ 9  7  1 14 
+10  0 13  8 
+11 12  4 15 
+solution length: 46
+difficulty: Elite
+dijkstra states explored: ??
+manhattan states explored: 1540035
