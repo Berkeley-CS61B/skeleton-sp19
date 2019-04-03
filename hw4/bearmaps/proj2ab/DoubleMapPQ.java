@@ -72,7 +72,6 @@ public class DoubleMapPQ<T> implements ExtrinsicMinPQ<T> {
         if (!contains(item)) {
             throw new IllegalArgumentException(item + " not in PQ.");
         }
-        System.out.println("Priority change!");
 
         double oldP = itemToPriority.get(item);
         Set<T> itemsWithOldPriority = priorityToItem.get(oldP);
