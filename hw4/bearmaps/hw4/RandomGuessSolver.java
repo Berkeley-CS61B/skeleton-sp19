@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class RandomGuessSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
-    List<Vertex> solution = new ArrayList<Vertex>();
+    List<Vertex> solution = new ArrayList<>();
     double totalWeight = 0;
     double timeElapsed = 0;
     int numExplored = 0;
