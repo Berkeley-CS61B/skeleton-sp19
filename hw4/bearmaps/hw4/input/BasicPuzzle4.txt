@@ -1,7 +1,7 @@
- 8  4  7 
- 1  5  6 
- 3  2  0 
+ 6  0  5
+ 8  7  4
+ 3  2  1
 solution length: 30
 difficulty: Easy++
-dijkstra states explored: 181404
-manhattan states explored: 4831
+dijkstra states explored: 180771
+manhattan states explored: 5219
