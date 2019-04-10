@@ -34,7 +34,7 @@ public class MergeSort {
     /**
      * Returns a queue of queues that each contain one item from items.
      *
-     * This method should take linear time and will result in "items" being empty
+     * This method should take linear time.
      *
      * @param   items  A Queue of items.
      * @return         A Queue of queues, each containing an item from items.
@@ -69,7 +69,7 @@ public class MergeSort {
      * Returns a Queue that contains the given items sorted from least to greatest.
      *
      * This method should take roughly nlogn time where n is the size of "items"
-     * running this method will result in "items" being emptied into the returned queue
+     * this method should be non-destructive and not empty "items".
      *
      * @param   items  A Queue to be sorted.
      * @return         A Queue containing every item in "items".
