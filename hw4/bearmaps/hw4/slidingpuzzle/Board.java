@@ -33,7 +33,7 @@ public class Board {
     public static Board readBoard(String filename) {
         In in = new In(filename);
         String line = in.readLine();
-        String[] tokens = line.strip().split("\\s+");
+        String[] tokens = line.trim().split("\\s+");
         int N = tokens.length;
 
         int[][] tiles = new int[N][N];
@@ -42,7 +42,7 @@ public class Board {
                 tiles[r][c] = Integer.parseInt(tokens[c]);
             }
             line = in.readLine();
-            tokens = line.strip().split("\\s+");
+            tokens = line.trim().split("\\s+");
         }
 
         return new Board(tiles);
