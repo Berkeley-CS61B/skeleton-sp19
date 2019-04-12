@@ -116,7 +116,7 @@ public class StreetMapGraph implements AStarGraph<Long> {
     private void clean() {
         List<Long> toRemove = new ArrayList<>();
         for (long id : nodes.keySet()) {
-            if (neighbors(id).size() == 0) {
+            if (neighbors(id).size() == 0 && nodes.get(id).name() == null) {
                 toRemove.add(id);
             }
         }

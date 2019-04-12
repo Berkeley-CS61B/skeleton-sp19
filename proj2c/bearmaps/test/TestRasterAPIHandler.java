@@ -36,7 +36,7 @@ public class TestRasterAPIHandler {
     }
 
     @Test
-    public void testGetMapRaster() throws Exception {
+    public void testProcessRequests() throws Exception {
         List<Map<String, Double>> testParams = paramsFromFile();
         List<Map<String, Object>> expectedResults = resultsFromFile();
 

@@ -30,7 +30,7 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
     /**
      * Each raster request to the server will have the following parameters
      * as keys in the params map accessible by,
-     * i.e., params.get("ullat") inside getMapRaster(). <br>
+     * i.e., params.get("ullat") inside RasterAPIHandler.processRequest(). <br>
      * ullat : upper left corner latitude, <br> ullon : upper left corner longitude, <br>
      * lrlat : lower right corner latitude,<br> lrlon : lower right corner longitude <br>
      * w : user viewport window width in pixels,<br> h : user viewport height in pixels.
@@ -40,7 +40,7 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
 
     /**
      * The result of rastering must be a map containing all of the
-     * fields listed in the comments for getMapRaster in Rasterer.java.
+     * fields listed in the comments for RasterAPIHandler.processRequest.
      **/
     private static final String[] REQUIRED_RASTER_RESULT_PARAMS = {"render_grid", "raster_ul_lon",
             "raster_ul_lat", "raster_lr_lon", "raster_lr_lat", "depth", "query_success"};
@@ -87,7 +87,7 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
         //System.out.println("yo, wanna know the parameters given by the web browser? They are:");
         //System.out.println(requestParams);
         Map<String, Object> results = new HashMap<>();
-        System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
+        System.out.println("Since you haven't implemented RasterAPIHandler.processRequest, nothing is displayed in "
                 + "your browser.");
         return results;
     }
