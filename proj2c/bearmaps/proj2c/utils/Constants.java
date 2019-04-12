@@ -28,7 +28,7 @@ public class Constants {
     public static final String OSM_DB_PATH = "../library-sp19/data/proj2c_xml/berkeley-2019.osm.xml";
 
     /** The tile images are in the IMG_ROOT folder. */
-    public static final String IMG_ROOT = "../library-sp19/data/proj3_imgs/";
+    public static final String IMG_ROOT = "../library-sp19/data/proj2c_imgs/";
 
     /** Route stroke information: Cyan with half transparency. */
     public static final Color ROUTE_STROKE_COLOR = new Color(108, 181, 230, 200);
