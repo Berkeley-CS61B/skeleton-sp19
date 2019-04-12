@@ -216,7 +216,7 @@ public class StreetMapGraph implements AStarGraph<Long> {
     }
 
     protected List<Node> getNodes() {
-        List<Node> nodes = new LinkedList<>();
+        List<Node> nodes = new ArrayList<>();
         for(Map.Entry<Long, Node> nodeEntry: this.nodes.entrySet()){
             nodes.add(nodeEntry.getValue());
         }

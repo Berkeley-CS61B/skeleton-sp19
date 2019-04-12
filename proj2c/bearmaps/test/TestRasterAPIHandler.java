@@ -24,8 +24,8 @@ import static org.junit.Assert.assertTrue;
 public class TestRasterAPIHandler {
     private static final double DOUBLE_THRESHOLD = 0.000000001;
     private static DecimalFormat df2 = new DecimalFormat(".#########");
-    private static final String PARAMS_FILE = "raster_params.txt";
-    private static final String RESULTS_FILE = "raster_results.txt";
+    private static final String PARAMS_FILE = "../library-sp19/data/proj2c_test_inputs/raster_params.txt";
+    private static final String RESULTS_FILE = "../library-sp19/data/proj2c_test_inputs/raster_results.txt";
     private static final int NUM_TESTS = 8;
     private static RasterAPIHandler rasterer;
 
