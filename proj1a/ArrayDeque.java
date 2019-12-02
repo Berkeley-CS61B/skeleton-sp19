@@ -1,10 +1,5 @@
 
 public class ArrayDeque<T> {
-    /**
-     * Invariants:
-     *  addLast puts item in position last
-     *  addFirst puts item in position first
-     */
     private static final int MINIMUM_CAPACITY = 8;
     private static final int RESIZE_FACTOR = 2;
     private static final float SHRINK_THRESHOLD = 1.0f / 4;
@@ -110,7 +105,9 @@ public class ArrayDeque<T> {
 
         /* Capacity = 16, Size = 4, L = 2, F = 13
          *       L                     F 
-         * [ * * - - - - - - - - - - - - * * ]
+         * [ 3 4 - - - - - - - - - - - - 1 2 ]
+         * becomes
+         * [ 1 2 3 4 - - - - ]
          */
         if (last < first) {
             int itemsToCopy_1 = capacity - first - 1;
@@ -126,7 +123,9 @@ public class ArrayDeque<T> {
 
          /* F = 5, L = 8, Size = 2, Capacity = 16
           *             F     L           
-          * [ - - - - - - * * - - - - - - - - ]
+          * [ - - - - - - 1 2 - - - - - - - - ]
+          * becomes
+          * [ 1 2 3 4 - - - - ]
           */
         } else {
             int itemsToCopy = last - first - 1;
@@ -137,13 +136,6 @@ public class ArrayDeque<T> {
             last = itemsToCopy;
             first = capacity - 1;
         }
-    }
-
-    public void DEBUG_PRINT() {
-        for(int i=0; i<capacity; i++) {
-            System.out.print(items[i] == null ? " . " : " " + items[i] + " ");
-        }
-        System.out.println();
     }
 
     private static void testGrow() {
@@ -196,7 +188,7 @@ public class ArrayDeque<T> {
         System.out.println(passed ? "Success" : "Fail");
     }
 
-    public static void testShrink_LastLessThanFirst() {
+    private static void testShrink_LastLessThanFirst() {
         System.out.println("Testing Shrink when Last less than First");
         boolean passed = true;
         Integer[] items = new Integer[]{0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2, 3};
