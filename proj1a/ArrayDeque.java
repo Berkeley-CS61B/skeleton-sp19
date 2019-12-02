@@ -47,7 +47,7 @@ public class ArrayDeque<T> {
 
     public T removeLast() {
         if (isEmpty())
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Cannot removeLast from emptyArrayDeque");
         last = decrement(last);
         T lastItem = items[last];
         items[last] = null;
@@ -58,12 +58,14 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (isEmpty())
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Cannot removeFirst from empty ArrayDeque");
         checkAndResizeIfNecessary();
-        return null;
-    }
-
-    public void printDeque() {
+        first = increment(first);
+        T firstItem = items[first];
+        items[first] = null;
+        size -= 1;
+        checkAndResizeIfNecessary();
+        return firstItem;
     }
 
     private int increment(int i) {
@@ -82,20 +84,19 @@ public class ArrayDeque<T> {
         if (size == capacity) {
             newCapacity = capacity * RESIZE_FACTOR;
             grow(newCapacity);
-        } else if ((capacity > MINIMUM_CAPACITY) && ((float)size/capacity < SHRINK_THRESHOLD)) {
+        } else if ((capacity > MINIMUM_CAPACITY) && ((float)size/capacity <= SHRINK_THRESHOLD)) {
             newCapacity = capacity / RESIZE_FACTOR;
             shrink(newCapacity);
         }
     }
 
-    // TODO Fix arraycopy 
     private void grow(int newCapacity) {
         T[] newItems = (T[]) new Object[newCapacity];
 
-        int itemsToCopy_1 = capacity - first;
-        System.arraycopy(items, first, newItems, 0, itemsToCopy_1);
-
+        int itemsToCopy_1 = capacity - first - 1;
         int itemsToCopy_2 = size - itemsToCopy_1;
+
+        System.arraycopy(items, increment(first), newItems, 0, itemsToCopy_1);
         System.arraycopy(items, 0, newItems, itemsToCopy_1, itemsToCopy_2);
 
         capacity = newCapacity;
@@ -107,20 +108,29 @@ public class ArrayDeque<T> {
     private void shrink(int newCapacity) {
         T[] newItems = (T[]) new Object[newCapacity];
 
+        /* Capacity = 16, Size = 4, L = 2, F = 13
+         *       L                     F 
+         * [ * * - - - - - - - - - - - - * * ]
+         */
         if (last < first) {
-            int itemsToCopy_1 = capacity - first;
-            System.arraycopy(items, first, newItems, 0, itemsToCopy_1);
-
+            int itemsToCopy_1 = capacity - first - 1;
             int itemsToCopy_2 = size - itemsToCopy_1;
+
+            System.arraycopy(items, increment(first), newItems, 0, itemsToCopy_1);
             System.arraycopy(items, 0, newItems, itemsToCopy_1, itemsToCopy_2);
 
             capacity = newCapacity;
             items = newItems;
             last = itemsToCopy_1 + itemsToCopy_2;
             first = capacity - 1;
+
+         /* F = 5, L = 8, Size = 2, Capacity = 16
+          *             F     L           
+          * [ - - - - - - * * - - - - - - - - ]
+          */
         } else {
             int itemsToCopy = last - first - 1;
-            System.arraycopy(items, 0, newItems, 0, itemsToCopy);
+            System.arraycopy(items, increment(first), newItems, 0, itemsToCopy);
 
             capacity = newCapacity;
             items = newItems;
@@ -129,11 +139,10 @@ public class ArrayDeque<T> {
         }
     }
 
-    public void print() {
-        for(int i=increment(first); i < capacity; i++)
-            System.out.print(items[i] + " ");
-        for(int i=0; i<last; i++)
-            System.out.print(items[i] + " ");
+    public void DEBUG_PRINT() {
+        for(int i=0; i<capacity; i++) {
+            System.out.print(items[i] == null ? " . " : " " + items[i] + " ");
+        }
         System.out.println();
     }
 
@@ -145,10 +154,8 @@ public class ArrayDeque<T> {
             AD.addLast(i);
             passed = AD.capacity == 8 & passed;
         }
-        AD.print();
-        for(int i=0; i<8; i++) {
+        for(int i=100; i<100+8; i++) {
             AD.addLast(i);
-            AD.print();
             passed = AD.capacity == 16 & passed;
         }
         // TODO Count items in array manually
@@ -180,13 +187,33 @@ public class ArrayDeque<T> {
         }
         passed = AD.capacity == 16 && passed;
 
-        while (AD.size() >= 4) {
+        while (AD.size() > 4) {
             AD.removeLast();
         }
 
-        AD.print();
-
         passed = AD.capacity == 8 && passed;
+
+        System.out.println(passed ? "Success" : "Fail");
+    }
+
+    public static void testShrink_LastLessThanFirst() {
+        System.out.println("Testing Shrink when Last less than First");
+        boolean passed = true;
+        Integer[] items = new Integer[]{0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2, 3};
+        ArrayDeque<Integer> AD = new ArrayDeque<>();
+        AD.items = items;
+        AD.capacity = 16;
+        AD.size = 5;
+        AD.last = 3;
+        AD.first = 13;
+
+        AD.removeLast();
+        passed = AD.capacity == 8 && passed;
+
+        passed = AD.removeFirst() == 2 && passed;
+        passed = AD.removeFirst() == 3 && passed;
+        passed = AD.removeFirst() == 0 && passed;
+        passed = AD.removeLast() == 1 && passed;
 
         System.out.println(passed ? "Success" : "Fail");
     }
@@ -194,5 +221,6 @@ public class ArrayDeque<T> {
     public static void main(String[] args) {
         testGrow();
         testGrowAndShrink();
+        testShrink_LastLessThanFirst();
     }
 }
