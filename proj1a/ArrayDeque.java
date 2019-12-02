@@ -76,34 +76,68 @@ public class ArrayDeque<T> {
         return newIndex >= 0 ? newIndex : capacity-1;
     }
 
-    /**
-     * TODO Handle resize up when first < last and last < first
-     * TODO Handle resize down when first < last and last < first
-     */
     private void checkAndResizeIfNecessary() {
         int newCapacity = capacity;
-        boolean doResize = false;
 
-        if (size >= capacity) {
-            doResize = true;
+        if (size == capacity) {
             newCapacity = capacity * RESIZE_FACTOR;
+            grow(newCapacity);
         } else if ((capacity > MINIMUM_CAPACITY) && ((float)size/capacity < SHRINK_THRESHOLD)) {
-            doResize = true;
             newCapacity = capacity / RESIZE_FACTOR;
-        }
-
-        if (doResize) {
-            if (newCapacity > capacity)
-                grow();
-            else
-                shrink();
+            shrink(newCapacity);
         }
     }
 
-    private void grow() {}
-    private void shrink() {}
+    // TODO Fix arraycopy 
+    private void grow(int newCapacity) {
+        T[] newItems = (T[]) new Object[newCapacity];
 
-    private static void testGrowCapacity_LastLessThanFirst() {
+        int itemsToCopy_1 = capacity - first;
+        System.arraycopy(items, first, newItems, 0, itemsToCopy_1);
+
+        int itemsToCopy_2 = size - itemsToCopy_1;
+        System.arraycopy(items, 0, newItems, itemsToCopy_1, itemsToCopy_2);
+
+        capacity = newCapacity;
+        items = newItems;
+        last = itemsToCopy_1 + itemsToCopy_2;
+        first = capacity - 1;
+    }
+
+    private void shrink(int newCapacity) {
+        T[] newItems = (T[]) new Object[newCapacity];
+
+        if (last < first) {
+            int itemsToCopy_1 = capacity - first;
+            System.arraycopy(items, first, newItems, 0, itemsToCopy_1);
+
+            int itemsToCopy_2 = size - itemsToCopy_1;
+            System.arraycopy(items, 0, newItems, itemsToCopy_1, itemsToCopy_2);
+
+            capacity = newCapacity;
+            items = newItems;
+            last = itemsToCopy_1 + itemsToCopy_2;
+            first = capacity - 1;
+        } else {
+            int itemsToCopy = last - first - 1;
+            System.arraycopy(items, 0, newItems, 0, itemsToCopy);
+
+            capacity = newCapacity;
+            items = newItems;
+            last = itemsToCopy;
+            first = capacity - 1;
+        }
+    }
+
+    public void print() {
+        for(int i=increment(first); i < capacity; i++)
+            System.out.print(items[i] + " ");
+        for(int i=0; i<last; i++)
+            System.out.print(items[i] + " ");
+        System.out.println();
+    }
+
+    private static void testGrow() {
         System.out.println("Testing Growth of Capacity when Last less than First");
         boolean passed = true;
         ArrayDeque<Integer> AD = new ArrayDeque<>();
@@ -111,14 +145,18 @@ public class ArrayDeque<T> {
             AD.addLast(i);
             passed = AD.capacity == 8 & passed;
         }
+        AD.print();
         for(int i=0; i<8; i++) {
             AD.addLast(i);
+            AD.print();
             passed = AD.capacity == 16 & passed;
         }
+        // TODO Count items in array manually
         System.out.println(passed ? "Success" : "Fail");
+
     }
 
-    private static void testGrowCapacity_FirstLessThanLast() {
+    private static void testGrowAndShrink() {
         System.out.println("Testing Growth of Capacity when First less than Last");
         boolean passed = true;
         ArrayDeque<Integer> AD = new ArrayDeque<>();
@@ -140,19 +178,21 @@ public class ArrayDeque<T> {
         for(int i=0; i<12; i++) {
             AD.addFirst(i);
         }
-        passed = AD.capacity == 16 && passed; // no change to capacity yet
+        passed = AD.capacity == 16 && passed;
 
         while (AD.size() >= 4) {
             AD.removeLast();
-            System.out.println(AD.size() + " / " + AD.capacity);
         }
-        passed = AD.capacity == 8 && passed; // no change to capacity yet
+
+        AD.print();
+
+        passed = AD.capacity == 8 && passed;
 
         System.out.println(passed ? "Success" : "Fail");
     }
 
     public static void main(String[] args) {
-        testGrowCapacity_LastLessThanFirst();
-        testGrowCapacity_FirstLessThanLast();
+        testGrow();
+        testGrowAndShrink();
     }
 }
