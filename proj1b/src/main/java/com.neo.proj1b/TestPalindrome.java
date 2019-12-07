@@ -27,4 +27,17 @@ public class TestPalindrome {
         assertFalse(palindrome.isPalindrome("cat"));
         assertFalse(palindrome.isPalindrome("door"));
     }
+
+    @Test
+    public void testIsPalindromeComparator() {
+        assertTrue(palindrome.isPalindrome("ab", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("cdcd", new OffByOne()));
+    }
+
+    @Test
+    public void testIsPalindromeComparatorOffset() {
+        OffByN offby5 = new OffByN(5);
+        assertTrue(palindrome.isPalindrome("af", offby5));
+        assertFalse(palindrome.isPalindrome("fh", offby5));
+    }
 }
