@@ -1,8 +1,5 @@
-package Intlist;
-
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class IntListTest {
 
@@ -14,11 +11,11 @@ public class IntListTest {
 
     @Test
     public void testList() {
-        IntList one = new IntList(1, null);
+        Intlist.IntList one = new IntList(1, null);
         IntList twoOne = new IntList(2, one);
         IntList threeTwoOne = new IntList(3, twoOne);
 
-        IntList x = IntList.of(3, 2, 1);
+        IntList x = Intlist.IntList.of(3, 2, 1);
         assertEquals(threeTwoOne, x);
     }
 
