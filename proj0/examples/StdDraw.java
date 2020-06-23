@@ -1,4 +1,4 @@
-/******************************************************************************
+package examples; /******************************************************************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
  *  Dependencies: none
